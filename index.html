@@ -21,7 +21,7 @@
     
     
       
-        <title>HyperBus v2 - HyperBus Controller</title>
+        <title>HyperBus Controller - HyperBus Controller</title>
       
     
     
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hyperbus-v2" class="md-skip">
+        <a href="#hyperbus-controller" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              HyperBus v2
+              HyperBus Controller
             
           </span>
         </div>
@@ -506,10 +506,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-start" class="md-nav__link">
     <span class="md-ellipsis">
       
         Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repository-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repository Layout
       
     </span>
   </a>
@@ -547,17 +580,81 @@
   
 
 
-<h1 id="hyperbus-v2">HyperBus v2</h1>
-<p>This peripheral implements an AXI4-compliant interface for the HyperBus protocol, described <a href="https://www.cypress.com/file/213356/download">in its specification</a>. HyperBus v2 is part of the <a href="https://pulp-platform.org/">PULP (Parallel Ultra-Low-Power) platform</a>.</p>
-<p>Hyperbus is mainly used for off-chip memories (HyperFlash and HyperRAM), but also supported by some generic peripherals.</p>
+<h1 id="hyperbus-controller">HyperBus Controller</h1>
+<p>HyperBus is a fully synthesizable, AXI4-compliant RTL implementation of a HyperBus controller IP.
+It abstracts the HyperBus protocol and exposes a standard AXI4 slave interface to the host system,
+enabling seamless integration into PULP-based SoCs, FPGAs, and custom ASICs.</p>
+<p>HyperBus is primarily used for high-bandwidth, low-pin-count off-chip memories — HyperRAM (PSRAM)
+and HyperFlash (NOR Flash) — but also supports generic peripherals that implement the HyperBus
+electrical and timing specifications.</p>
+<p>HyperBus is mainly used for off-chip memories (HyperFlash and HyperRAM), but also supported by some generic peripherals.</p>
+<p>HyperBus is part of the <a href="https://pulp-platform.org/">PULP (Parallel Ultra-Low-Power) platform</a>.</p>
+<h2 id="key-features">Key Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Host interface</td>
+<td>AXI4 slave (read/write, bursts, protection attributes)</td>
+</tr>
+<tr>
+<td>Device interface</td>
+<td>HyperBus protocol (CK/CK#, RWDS, CS#, DQ[7:0])</td>
+</tr>
+<tr>
+<td>Supported devices</td>
+<td>HyperRAM (PSRAM), HyperFlash (NOR Flash)</td>
+</tr>
+<tr>
+<td>Configuration interface</td>
+<td>Regbus (register-mapped, parameterizable width)</td>
+</tr>
+<tr>
+<td>Burst support</td>
+<td>Any AXI burst length</td>
+</tr>
+<tr>
+<td>Address width</td>
+<td>Fully parameterizable</td>
+</tr>
+<tr>
+<td>Multi-chip</td>
+<td>Multiple CS# lines supported</td>
+</tr>
+</tbody>
+</table>
+<h2 id="current-limitations">Current limitations</h2>
+<ul>
+<li>Atomics are <strong>not</strong> supported.</li>
+<li>Only <strong>linear</strong> AXI bursts are supported.</li>
+<li>All non-byte accesses must be <strong>aligned to 16-bit boundaries</strong>.</li>
+<li>HyperFlash support is <strong>work in progress</strong> — only HyperRAM has been fully tested.</li>
+</ul>
 <h2 id="quick-start">Quick Start</h2>
 <ul>
-<li>To learn how to build and use Hyperbus, see <a href="https://FondazioneChipsIT.github.io/hyperbus/gs/">Getting Started</a>.</li>
-<li>To learn about available simulation, FPGA, and ASIC targets, see <a href="https://FondazioneChipsIT.github.io/hyperbus/tg">Targets</a>.</li>
-<li>For detailed information on Hyperbus's inner workings, consult the <a href="https://FondazioneChipsIT.github.io/hyperbus/um/">User Manual</a>.</li>
+<li><strong><a href="gs/">Getting Started</a></strong> Clone the repo, install dependencies, and run your first simulation.</li>
+<li><strong><a href="spec/">Specification</a></strong> Block diagram, interface description, register map, and implementation details.</li>
+<li><strong><a href="ver/">Verification</a></strong> Testbench architecture, test plan, and coverage strategy.</li>
+<li><strong><a href="um/">User Manual</a></strong> Integration guide, programmer's guide, and how to run simulation and other flow steps.</li>
+<li><strong><a href="https://www.cypress.com/file/213356/download">HyperBus™ specification</a></strong>.</li>
 </ul>
+<h2 id="repository-layout">Repository Layout</h2>
+<pre><code>hyperbus/
+├── src/          # Hardware sources (SystemVerilog RTL)
+├── test/         # Testbench and tests
+├── target/       # Simulation, FPGA, and other targets setups
+├── models/       # Device simulation models (HyperRAM, HyperFlash)
+├── padframe/     # Pad-frame wrappers (optional)
+└── docs/         # This documentation (MkDocs sources)
+</code></pre>
+<hr />
 <h2 id="license">License</h2>
-<p>Unless specified otherwise in the respective file headers, all code checked into this repository is made available under a permissive license. All hardware sources and tool scripts are licensed under the Solderpad Hardware License 0.51 (see <code>LICENSE</code>) or compatible licenses. Register file code (e.g. <code>hw/regs/*.sv</code>) is generated by a fork of lowRISC's <a href="https://github.com/lowRISC/opentitan/blob/master/util/regtool.py"><code>regtool</code></a> and licensed under Apache 2.0. </p>
+<p>Unless specified otherwise in the respective file headers, all code checked into this repository is made available under a permissive license. All hardware sources and tool scripts are licensed under the Solderpad Hardware License 0.51 (see <code>LICENSE</code>) or compatible licenses.</p>
 
 
 
