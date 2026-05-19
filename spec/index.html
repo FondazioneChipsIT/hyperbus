@@ -9,6 +9,10 @@
       
       
       
+        <link rel="prev" href="../gs/">
+      
+      
+        <link rel="next" href="../ver/">
       
       
         
@@ -19,7 +23,7 @@
     
     
       
-        <title>HyperBus – Specification - HyperBus Controller</title>
+        <title>Specification - HyperBus Controller</title>
       
     
     
@@ -60,7 +64,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hyperbus-specification" class="md-skip">
+        <a href="#specification" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              HyperBus – Specification
+              Specification
             
           </span>
         </div>
@@ -287,7 +291,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gs.md" class="md-nav__link">
+      <a href="../gs/" class="md-nav__link">
         
   
   
@@ -319,51 +323,26 @@
       
   
   
+    
   
   
-    
-    
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
       
         
       
-        
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
+        <label class="md-nav__link md-nav__link--active" for="__toc">
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
-            
   
   
   <span class="md-ellipsis">
     
   
-    IP Specification
+    Specification
   
 
     
@@ -371,35 +350,258 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    IP Specification
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../spec/overview/" class="md-nav__link">
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Overview
+    Specification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#block-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Block Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#functional-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functional Description
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functional Description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Purpose
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-standardsprotocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported standards/protocols
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Interface
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#register-map" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Register Map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#featuresrequirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features/Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Features/Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#todos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToDos
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#timing-diagrams" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timing Diagrams
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation details">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#module-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Module Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parameters-configurations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parameters &amp; Configurations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reset-behavior" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reset Behavior
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clock-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clock Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#power-domains" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Power Domains
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Verification
   
 
     
@@ -411,401 +613,16 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
   
     <li class="md-nav__item">
-      <a href="../spec/block_diagram/" class="md-nav__link">
+      <a href="../um/" class="md-nav__link">
         
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Block Diagram
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../spec/interfaces/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Interfaces
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../spec/features/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Features
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../spec/architecture/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Architecture
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../spec/timing_diagrams/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Timing Diagrams
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../spec/regs/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Registers
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Verification Plan
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Verification Plan
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ver/checks/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    checks
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ver/tb_arch/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    TestBench architecture
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ver/tests/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Tests
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ver/rand/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Randomization
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-        
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
-            
   
   
   <span class="md-ellipsis">
@@ -819,107 +636,61 @@
   
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    User Manual
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../um/conf/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    How to configure/integrate the IP
-  
-
-    
-  </span>
-  
-  
-
       </a>
     </li>
   
 
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../um/steps/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
     
-  
-    How to run flow steps
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../um/simulation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Simulation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
       
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -978,10 +749,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-overview" class="md-nav__link">
+  <a href="#block-diagram" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Overview
+        Block Diagram
       
     </span>
   </a>
@@ -989,33 +760,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-features" class="md-nav__link">
+  <a href="#functional-description" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Features
+        Functional Description
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-block-diagram" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. Block Diagram
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. Block Diagram">
+    <nav class="md-nav" aria-label="Functional Description">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#31-image-diagram" class="md-nav__link">
+  <a href="#purpose" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.1 Image Diagram
+        Purpose
       
     </span>
   </a>
@@ -1023,10 +783,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#32-mermaid-diagram-optional" class="md-nav__link">
+  <a href="#usage-context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3.2 Mermaid Diagram (optional)
+        Usage context
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-standardsprotocols" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported standards/protocols
       
     </span>
   </a>
@@ -1039,33 +810,44 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#4-architecture-description" class="md-nav__link">
+  <a href="#interface" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4. Architecture Description
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Architecture Description">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-high-level-description" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 High-Level Description
+        Interface
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#42-module-breakdown" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#register-map" class="md-nav__link">
     <span class="md-ellipsis">
       
-        4.2 Module Breakdown
+        Register Map
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#featuresrequirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Features/Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Features/Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#todos" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ToDos
       
     </span>
   </a>
@@ -1078,22 +860,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#5-interfaces" class="md-nav__link">
+  <a href="#timing-diagrams" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5. Interfaces
+        Timing Diagrams
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="5. Interfaces">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation details
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implementation details">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#51-port-list-systemverilog" class="md-nav__link">
+  <a href="#module-breakdown" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.1 Port List (SystemVerilog)
+        Module Breakdown
       
     </span>
   </a>
@@ -1101,38 +894,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#52-signal-description" class="md-nav__link">
+  <a href="#parameters-configurations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        5.2 Signal Description
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#6-timing-diagrams" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6. Timing Diagrams
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="6. Timing Diagrams">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#61-wavedrom-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        6.1 WaveDrom Example
+        Parameters &amp; Configurations
       
     </span>
   </a>
@@ -1140,60 +905,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#62-eventstate-transitions-mermaid" class="md-nav__link">
+  <a href="#reset-behavior" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6.2 Event/State Transitions (Mermaid)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#7-parameters-configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        7. Parameters &amp; Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#8-reset-behavior" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        8. Reset Behavior
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#9-clocking-power" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9. Clocking &amp; Power
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="9. Clocking &amp; Power">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#91-clock-domain" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        9.1 Clock Domain
+        Reset Behavior
       
     </span>
   </a>
@@ -1201,38 +916,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#92-power-considerations" class="md-nav__link">
+  <a href="#clock-structure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        9.2 Power Considerations
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#10-register-map-if-applicable" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10. Register Map (if applicable)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="10. Register Map (if applicable)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#101-register-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10.1 Register Summary
+        Clock Structure
       
     </span>
   </a>
@@ -1240,88 +927,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#102-register-details" class="md-nav__link">
+  <a href="#power-domains" class="md-nav__link">
     <span class="md-ellipsis">
       
-        10.2 Register Details
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="10.2 Register Details">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1021-ctrl-register-0x00" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        10.2.1 CTRL Register (0x00)
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#11-implementation-notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        11. Implementation Notes
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#12-verification-plan-high-level" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        12. Verification Plan (High-Level)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#13-known-limitations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        13. Known Limitations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#14-release-notes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        14. Release Notes
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="14. Release Notes">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#v01" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        v0.1
+        Power Domains
       
     </span>
   </a>
@@ -1353,279 +962,105 @@
   
 
 
-<h1 id="hyperbus-specification">HyperBus – Specification</h1>
-<p><strong>Version:</strong> 0.1<br />
-<strong>Date:</strong> 2025-11-25<br />
-<strong>Author:</strong> <Your Name>  </p>
+<h1 id="specification">Specification</h1>
 <hr />
-<h2 id="1-overview">1. Overview</h2>
-<p>Brief description of the IP:
-- Purpose
-- Usage context
-- Supported standards/protocols
-- High-level functionality</p>
+<h2 id="block-diagram">Block Diagram</h2>
+<p><img alt="HyperBus v2 block diagram" src="../axi_hyper.svg" /></p>
 <hr />
-<h2 id="2-features">2. Features</h2>
+<h2 id="functional-description">Functional Description</h2>
+<h3 id="purpose">Purpose</h3>
+<p>This IP provides a fully synthesizable RTL implementation of a HyperBus Controller, enabling seamless communication between an on-chip system and off-chip HyperBus devices such as HyperRAM and HyperFlash memories.
+It abstracts the complexity of the HyperBus protocol and exposes a standard AXI4 interface to system controller.</p>
+<h3 id="usage-context">Usage context</h3>
+<p>HyperBus is primarily used for connecting high-bandwidth, low-pin-count external memories such as HyperRAM (PSRAM) and HyperFlash (NOR Flash).
+The controller can also interface with generic peripherals that implement the HyperBus electrical and timing specifications.</p>
+<p>Typical applications include:</p>
 <ul>
-<li>Parameterizable (WIDTH, DEPTH)</li>
-<li>Throughput: 1 item/cycle</li>
-<li>Status flags: empty, full, almost-full</li>
-<li>Synchronous/asynchronous reset</li>
-<li>Backpressure support</li>
+<li>MCU/SoC memory expansion</li>
+<li>Low-latency code-execution interfaces (XIP) from HyperFlash</li>
+<li>Framebuffer or scratchpad memory using HyperRAM</li>
+<li>FPGA-based embedded systems requiring compact, high-speed external memory</li>
+</ul>
+<h3 id="supported-standardsprotocols">Supported standards/protocols</h3>
+<p>This peripheral implements:</p>
+<ul>
+<li>AXI4 slave interface (read/write channels, bursts, protection attributes)</li>
+<li>HyperBus protocol as defined in the publicly available specification (Cypress/Infineon HyperBus Specification, v1.x)</li>
+<li>Standard signaling for HyperRAM and HyperFlash devices, including:<ul>
+<li>CK/CK#, RWDS, CS#, and bidirectional DQ[7:0]</li>
+<li>Row/column addressing for HyperRAM</li>
+<li>Command/address packet formats for HyperFlash</li>
+</ul>
+</li>
+</ul>
+<p>The address width is also fully parameterizable. We support bursts of any size permitted by AXI and stalling through PHY-level clock stopping and protocol-level burst splitting. We do <em>not</em> buffer bursts to support devices without the clock stop feature; please ensure your device supports clock stop or ensure sufficient buffering upstream.</p>
+<p>The configuration register interface uses the minimal Regbus protocol. Data and address widths are parameterizable, but register sizes must be a power of two larger than 16 bits.</p>
+<hr />
+<h2 id="interface">Interface</h2>
+<hr />
+<h2 id="register-map">Register Map</h2>
+<p>Register set for runtime configuration:</p>
+<ul>
+<li>Latency mode selection</li>
+<li>Burst configuration</li>
+<li>Device timing parameters (tACC, tRC, tCSHI, etc.)</li>
+<li>Refresh optimization (for HyperRAM)</li>
+<li>Status registers for monitoring state, errors, and device behavior</li>
+<li>Power management</li>
+<li>Support for HyperRAM low-power modes (Hybrid Sleep/Deep Power-Down)</li>
+<li>Clock gating and internal low-activity states</li>
+<li>Optional features (depending on specific implementation variants)</li>
+<li>Error detection (timeouts, protocol violations)</li>
+<li>ECC pass-through or simple parity support</li>
+<li>Multi-chip mode (multiple CS# lines)</li>
+<li>XIP-friendly read pipeline for HyperFlash</li>
 </ul>
 <hr />
-<h2 id="3-block-diagram">3. Block Diagram</h2>
-<h3 id="31-image-diagram">3.1 Image Diagram</h3>
-<p><img alt="Block Diagram" src="./images/block_diagram.svg" /></p>
-<h3 id="32-mermaid-diagram-optional">3.2 Mermaid Diagram (optional)</h3>
-<pre><code class="language-mermaid">flowchart LR
-    A[Input Interface] --&gt; B(Core Logic)
-    B --&gt; C[Output Interface]
-</code></pre>
-<hr />
-<h2 id="4-architecture-description">4. Architecture Description</h2>
-<h3 id="41-high-level-description">4.1 High-Level Description</h3>
-<p>Detailed explanation of each internal block.</p>
-<h3 id="42-module-breakdown">4.2 Module Breakdown</h3>
-<table>
-<thead>
-<tr>
-<th>Module</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>fifo_ctrl</td>
-<td>Pointer management, status flags</td>
-</tr>
-<tr>
-<td>fifo_mem</td>
-<td>Data storage</td>
-</tr>
-<tr>
-<td>fifo_if</td>
-<td>External interfaces</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="5-interfaces">5. Interfaces</h2>
-<h3 id="51-port-list-systemverilog">5.1 Port List (SystemVerilog)</h3>
-<pre><code class="language-systemverilog">module &lt;ip_name&gt; (
-    input  logic        clk,
-    input  logic        rst_n,
-    input  logic        push,
-    input  logic        pop,
-    input  logic [7:0]  data_in,
-    output logic [7:0]  data_out,
-    output logic        full,
-    output logic        empty
-);
-</code></pre>
-<h3 id="52-signal-description">5.2 Signal Description</h3>
-<table>
-<thead>
-<tr>
-<th>Signal</th>
-<th>Dir</th>
-<th>Width</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>clk</td>
-<td>In</td>
-<td>1</td>
-<td>Clock input</td>
-</tr>
-<tr>
-<td>rst_n</td>
-<td>In</td>
-<td>1</td>
-<td>Active-low reset</td>
-</tr>
-<tr>
-<td>push</td>
-<td>In</td>
-<td>1</td>
-<td>Write request</td>
-</tr>
-<tr>
-<td>pop</td>
-<td>In</td>
-<td>1</td>
-<td>Read request</td>
-</tr>
-<tr>
-<td>data_in</td>
-<td>In</td>
-<td>8</td>
-<td>Data to be written</td>
-</tr>
-<tr>
-<td>data_out</td>
-<td>Out</td>
-<td>8</td>
-<td>Data output</td>
-</tr>
-<tr>
-<td>full</td>
-<td>Out</td>
-<td>1</td>
-<td>FIFO full indicator</td>
-</tr>
-<tr>
-<td>empty</td>
-<td>Out</td>
-<td>1</td>
-<td>FIFO empty indicator</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="6-timing-diagrams">6. Timing Diagrams</h2>
-<h3 id="61-wavedrom-example">6.1 WaveDrom Example</h3>
-<pre><code class="language-wavedrom">{ &quot;signal&quot;: [
-  { &quot;name&quot;: &quot;clk&quot;,  &quot;wave&quot;: &quot;p.....&quot; },
-  { &quot;name&quot;: &quot;push&quot;, &quot;wave&quot;: &quot;01.0..&quot; },
-  { &quot;name&quot;: &quot;data&quot;, &quot;wave&quot;: &quot;x3.x..&quot; },
-  { &quot;name&quot;: &quot;full&quot;, &quot;wave&quot;: &quot;0..1..&quot; }
-]}
-</code></pre>
-<h3 id="62-eventstate-transitions-mermaid">6.2 Event/State Transitions (Mermaid)</h3>
-<pre><code class="language-mermaid">stateDiagram-v2
-    IDLE --&gt; PUSH: push=1
-    PUSH --&gt; IDLE: push=0
-</code></pre>
-<pre><code class="language-graphviz">digraph DG {
-  IDLE -&gt; PUSH [label = &quot;push=1&quot;]
-  PUSH -&gt; IDLE [label = &quot;push=0&quot;]
-}
-</code></pre>
-<hr />
-<h2 id="7-parameters-configuration">7. Parameters &amp; Configuration</h2>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>WIDTH</td>
-<td>8</td>
-<td>Data bus width</td>
-</tr>
-<tr>
-<td>DEPTH</td>
-<td>16</td>
-<td>FIFO depth</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="8-reset-behavior">8. Reset Behavior</h2>
+<h2 id="featuresrequirements">Features/Requirements</h2>
+<p>The HyperBus Controller bridges AXI4 transactions to HyperBus read/write operations.
+Its main architectural features include:</p>
 <ul>
-<li>Active-low asynchronous reset.</li>
-<li>On reset:</li>
-<li>Internal pointers cleared</li>
-<li>Status flags cleared</li>
-<li>Memory content unspecified</li>
+<li>Command &amp; transaction management</li>
+<li>Automatic generation of HyperBus command/address packets</li>
+<li>Support for both memory types:<ul>
+<li>HyperRAM: variable-latency reads, fixed-latency writes</li>
+<li>HyperFlash: command sequences, linear reads, programming operations</li>
+</ul>
+</li>
+<li>Burst assembly and splitting based on AXI burst structure and device constraints</li>
+<li>Timing control</li>
+<li>CK/CK# differential clock generation</li>
+<li>RWDS monitoring for read latency determination and data strobe alignment</li>
+<li>Turnaround, idle cycles, and write-to-read or read-to-write transitions</li>
+<li>Optional internal timing calibration (if enabled in the integration)</li>
+<li>AXI interface handling</li>
+<li>AXI4-compliant read/write slave interface</li>
+<li>Burst length translation, alignment correction, and response generation</li>
+<li>Back-pressure and outstanding transaction control</li>
+<li>Independent read and write paths</li>
+</ul>
+<p>The main restrictions are as follows:</p>
+<ul>
+<li>Atomics are not supported.</li>
+<li>Only linear bursts are supported.</li>
+<li>All accesses except byte-size accesses must be aligned to 16-bit boundaries.</li>
+<li>Only communication with HyperRAMs has been tested. Support for flash is WIP.</li>
+</ul>
+<h3 id="todos">ToDos</h3>
+<ul>
+<li>[ ] Support byte-aligned accesses for non-byte-size transfer</li>
+<li>[ ] Test HyperFlash</li>
+<li>[ ] PSRAM support through additional CA decoder</li>
 </ul>
 <hr />
-<h2 id="9-clocking-power">9. Clocking &amp; Power</h2>
-<h3 id="91-clock-domain">9.1 Clock Domain</h3>
-<ul>
-<li>Single clock domain</li>
-<li>No internal CDC logic</li>
-</ul>
-<h3 id="92-power-considerations">9.2 Power Considerations</h3>
-<ul>
-<li>Optional clock gating support</li>
-</ul>
+<h2 id="timing-diagrams">Timing Diagrams</h2>
 <hr />
-<h2 id="10-register-map-if-applicable">10. Register Map (if applicable)</h2>
-<h3 id="101-register-summary">10.1 Register Summary</h3>
-<table>
-<thead>
-<tr>
-<th>Address</th>
-<th>Name</th>
-<th>R/W</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0x00</td>
-<td>CTRL</td>
-<td>R/W</td>
-<td>Enable, reset</td>
-</tr>
-<tr>
-<td>0x04</td>
-<td>STATUS</td>
-<td>R</td>
-<td>Full, empty</td>
-</tr>
-</tbody>
-</table>
-<h3 id="102-register-details">10.2 Register Details</h3>
-<h4 id="1021-ctrl-register-0x00">10.2.1 CTRL Register (0x00)</h4>
-<table>
-<thead>
-<tr>
-<th>Bit</th>
-<th>Name</th>
-<th>R/W</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0</td>
-<td>EN</td>
-<td>R/W</td>
-<td>Enable IP</td>
-</tr>
-<tr>
-<td>1</td>
-<td>RESET</td>
-<td>W</td>
-<td>Software reset</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="11-implementation-notes">11. Implementation Notes</h2>
-<ul>
-<li>Timing closure achieved at XXX MHz on technology YYY</li>
-<li>Memory implemented using macro or FF-based array</li>
-</ul>
-<hr />
-<h2 id="12-verification-plan-high-level">12. Verification Plan (High-Level)</h2>
-<ul>
-<li>Directed tests</li>
-<li>Constrained-random testing</li>
-<li>Functional coverage</li>
-<li>Assertions</li>
-</ul>
-<hr />
-<h2 id="13-known-limitations">13. Known Limitations</h2>
-<ul>
-<li>No multi-clock support</li>
-<li>No parity/ECC support</li>
-</ul>
-<hr />
-<h2 id="14-release-notes">14. Release Notes</h2>
-<h3 id="v01">v0.1</h3>
-<ul>
-<li>Initial draft</li>
-</ul>
+<h2 id="implementation-details">Implementation details</h2>
+<h3 id="module-breakdown">Module Breakdown</h3>
+<h3 id="parameters-configurations">Parameters &amp; Configurations</h3>
+<h3 id="reset-behavior">Reset Behavior</h3>
+<h3 id="clock-structure">Clock Structure</h3>
+<h3 id="power-domains">Power Domains</h3>
 
 
 
@@ -1650,6 +1085,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../gs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting Started">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Getting Started
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../ver/" class="md-footer__link md-footer__link--next" aria-label="Next: Verification">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Verification
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
