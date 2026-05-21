@@ -131,7 +131,16 @@ vsim -do target/sim/start.tcl
 | `regbus_rw` | `tests/regbus_rw.sv` | Write/read all Regbus config registers |
 | *(more TBD)* | | |
 
----
+### System-Level Software Tests
+
+These tests run on the CVA6 core within the integrated SCARV SoC and exercise
+the HyperBus controller through the full memory subsystem, rather than via a
+standalone AXI BFM.
+
+| Test | File | What it checks |
+|---|---|---|
+| `hello_world` | `sw/tests/bare-metal/hostd/hello_world.c` | Smoke test: SoC boot, HW init, UART printf |
+| `addressability_test` | `sw/tests/bare-metal/hostd/addressability_test.c` | HyperRAM addressability and data integrity across the full address range |
 
 ## Randomization
 
