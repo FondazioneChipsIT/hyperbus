@@ -137,11 +137,44 @@ These tests run on the CVA6 core within the integrated SCARV SoC and exercise
 the HyperBus controller through the full memory subsystem, rather than via a
 standalone AXI BFM.
 
+The SoC source and simulation infrastructure are hosted in the
+[FondazioneChipsIT/astral](https://github.com/FondazioneChipsIT/astral/tree/scarv)
+repository (`scarv` branch).
+
 | Test | File | What it checks |
 |---|---|---|
 | `hello_world` | `sw/tests/bare-metal/hostd/hello_world.c` | Smoke test: SoC boot, HW init, UART printf |
 | `addressability_test` | `sw/tests/bare-metal/hostd/addressability_test.c` | HyperRAM addressability and data integrity across the full address range |
 
+#### Running System-Level Tests
+
+**1. Build the test binary**
+
+```bash
+make -B sw/tests/bare-metal/hostd/helloworld.car.spm.elf
+make -B sw/tests/bare-metal/hostd/helloworld.car.dram.elf
+make -B sw/tests/bare-metal/hostd/addressability_test.car.spm.elf
+```
+
+**2. Build the simulation model**
+
+```bash
+make car-qsim-sim-build DEBUG=1
+```
+
+**3. Run the simulation**
+
+```bash
+# hello_world smoke test
+make car-qsim-sim-run CHS_BINARY=./sw/tests/bare-metal/hostd/helloworld.car.spm.elf DEBUG=1 CHS_PRELMODE=0
+make car-qsim-sim-run CHS_BINARY=./sw/tests/bare-metal/hostd/helloworld.car.dram.elf DEBUG=1 CHS_PRELMODE=0
+
+# HyperRAM addressability test
+make car-qsim-sim-run CHS_BINARY=./sw/tests/bare-metal/hostd/addressability_test.car.spm.elf DEBUG=1 CHS_PRELMODE=0
+```
+
+!!! note "Simulation flags"
+    `DEBUG=1` enables waveform dumping. `CHS_PRELMODE=0` selects preload mode via JTAG.
 ## Randomization
 
 !!! info "Work in progress"
