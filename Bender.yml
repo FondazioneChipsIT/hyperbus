@@ -29,9 +29,12 @@ sources:
       defines: 
         FPGA_EMUL: ~
       files:
-        - target/xilinx/hyperbus_clk_delay.sv
-        - target/xilinx/hyperbus_rwds_delay.sv
-    
+        - target/xilinx/src/hyperbus_clk_delay.sv
+        - target/xilinx/src/hyperbus_rwds_delay.sv
+        - target/xilinx/src/hyperbus_rwds_delay.sv
+        - target/xilinx/src/hyperbus_top_xilinx.sv
+        - target/xilinx/src/hyperbus_wrap.sv
+
     - target: test
       files:
         - models/configurable_delay.behav.sv

@@ -8,6 +8,10 @@ GIT ?= git
 BENDER ?= bender
 VSIM ?= vsim
 
+# FPGA staff
+BENDER_FPGA_SCRIPTS_DIR = target/xilinx/scripts
+
+
 all: build run
 
 clean: sim_clean
@@ -83,6 +87,11 @@ models/s27ks0641:
 
 scripts/compile.tcl: Bender.yml models/s27ks0641
 	$(call generate_vsim, $@, -t rtl -t test -t hyper_test,..)
+
+scripts-bender-fpga:
+	bender script vivado -t fpga -t idma -t rtl -D FPGA_EMUL -t xilinx -t hyperbus_dline > $(BENDER_FPGA_SCRIPTS_DIR)/add_sources.tcl
+	sed -i 's|$$ROOT/.bender/git/checkouts/tech_cells_generic-[^/]*/src/fpga/tc_clk_xilinx\.sv|$$ROOT/target/xilinx/src/overrides/tc_clk_xilinx.sv|' $(BENDER_FPGA_SCRIPTS_DIR)/add_sources.tcl
+
 
 build: scripts/compile.tcl
 	$(VSIM) -c -do "source scripts/compile.tcl; exit"
