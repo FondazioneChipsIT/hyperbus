@@ -23,7 +23,8 @@ import_files -fileset constrs_1 -norecurse $origin_dir/constraints/vcu118.xdc
 
 # IPs selection
 source ../xilinx_ips/clk_wiz/clk_wiz_0.tcl
-source ../xilinx_ips/jtag_axi/jtag_axi_0.tcl
+source ../xilinx_ips/jtag_axi_32/jtag_axi_32.tcl
+source ../xilinx_ips/jtag_axi_64/jtag_axi_64.tcl
 source ../xilinx_ips/xlnx_vio/run.tcl
 
 

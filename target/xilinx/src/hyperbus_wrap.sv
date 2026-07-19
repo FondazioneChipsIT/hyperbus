@@ -17,6 +17,8 @@ module hyperbus_wrap
   parameter int unsigned AxiMaxTrans     = 0 ,
   parameter type         axi_req_t       = logic,
   parameter type         axi_rsp_t       = logic,
+  parameter type         axi_reg_req_t    = logic,
+  parameter type         axi_reg_rsp_t    = logic,
   parameter type         axi_w_chan_t    = logic,
   parameter type         axi_b_chan_t    = logic,
   parameter type         axi_ar_chan_t   = logic,
@@ -48,8 +50,8 @@ module hyperbus_wrap
   input  logic rst_ni,
   input  logic test_mode_i,
 
-  input  axi_req_t axi_reg_req,
-  output axi_rsp_t axi_reg_rsp,
+  input  axi_reg_req_t axi_reg_req,
+  output axi_reg_rsp_t axi_reg_rsp,
     
   input  axi_req_t hyper_req,
   output axi_rsp_t hyper_rsp,
@@ -82,12 +84,12 @@ typedef struct packed {
 
 axi_to_reg_v2 #(
   .AxiAddrWidth(AxiAddrWidth),
-  .AxiDataWidth(AxiDataWidth),
+  .AxiDataWidth(RegDataWidth),
   .AxiIdWidth(AxiIdWidth),
   .AxiUserWidth(AxiUserWidth),
-  .RegDataWidth(RegDataWidth), // We will assume a 32 bit datapath (?)
-  .axi_req_t(axi_req_t),
-  .axi_rsp_t(axi_rsp_t),
+  .RegDataWidth(RegDataWidth),
+  .axi_req_t(axi_reg_req_t),
+  .axi_rsp_t(axi_reg_rsp_t),
   .reg_req_t(reg_req_t),
   .reg_rsp_t(reg_rsp_t),
   .id_t() //?

@@ -5,34 +5,37 @@
 # Carlotta Chiarini
 
 # This tcl file is used to configure the Hyperbus registers and to start the test
+# 
+# At the current development stage, in the design we can find two JtagtoAxi IPS, recognized by the design as "hw_axi_1"
+# and "hw_axi_2". hw_axi_1 is used to write data in the hyperram, while the hw_axi_2 is used to read/write the hyperbus regs.
 
 #**************************** CONFIGURATION REGISTERS *********************************#
 set hyperbus_regs {
-  {reg_t_latency_access 1000_0000}
-  {reg_en_latency_additional 1000_0004}
-  {reg_t_burst_max 1000_0008}
-  {reg_t_read_write_recovery 1000_000C}
-  {reg_rx_clk_delay 1000_0010}
-  {reg_tx_clk_delay 1000_0014}
-  {reg_address_mask_msb 1000_0018}
-  {reg_address_space 1000_001C}
-  {reg_phys_in_use 1000_0020}
-  {reg_which_phy 1000_0024}
-  {reg_t_csh_cycles 1000_0028}
-  {reg_csn_to_ck_cycles 1000_002C}
-  {reg_rwds_sample 1000_0030}
-  {reg_t_pad_cfgn 1000_0034}
-  {reg_chip0_base_addr 1000_0038}
-  {reg_chip0_end_addr 1000_003c}
-  {reg_chip1_base_addr 1000_0040}
-  {reg_chip1_end_addr 1000_0044}
+  {reg_t_latency_access 0000_0000}
+  {reg_en_latency_additional 0000_0004}
+  {reg_t_burst_max 0000_0008}
+  {reg_t_read_write_recovery 0000_000C}
+  {reg_rx_clk_delay 0000_0010}
+  {reg_tx_clk_delay 0000_0014}
+  {reg_address_mask_msb 0000_0018}
+  {reg_address_space 0000_001C}
+  {reg_phys_in_use 0000_0020}
+  {reg_which_phy 0000_0024}
+  {reg_t_csh_cycles 0000_0028}
+  {reg_csn_to_ck_cycles 0000_002C}
+  {reg_rwds_sample 0000_0030}
+  {reg_t_pad_cfgn 0000_0034}
+  {reg_chip0_base_addr 0000_0038}
+  {reg_chip0_end_addr 0000_003c}
+  {reg_chip1_base_addr 0000_0040}
+  {reg_chip1_end_addr 0000_0044}
 }
 
 
 #************************************** SETUP JTAG **************************************#
 proc setup_hw {{port 3122}} {
   open_hw_manager
-  connect_hw_server -url $host
+  connect_hw_server -url $port
   open_hw_target [lindex [get_hw_targets] 0]
   current_hw_device [lindex [get_hw_devices] 0]
   refresh_hw_device [lindex [get_hw_devices] 0]
@@ -47,21 +50,21 @@ proc hyper_init {} {
   foreach item $hyperbus_regs {
         lassign $item name address
         if {$name == "reg_chip0_base_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0000_0000
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0000
         } elseif {$name == "reg_chip0_end_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0800_0000
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0800_0000
         } elseif {$name == "reg_chip1_base_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0800_0000
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0800_0000
         } elseif {$name == "reg_chip1_end_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_1000_0000
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 1000_0000
         }  elseif {$name == "reg_phys_in_use"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0000_0001
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0001
         }  elseif {$name == "reg_which_phy"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0000_0001
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0001
         } elseif {$name == "reg_t_latency_access"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0000_0007
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0007
         } elseif {$name == "reg_t_read_write_recovery"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_1] -type write -address $address -data 0000_0000_0000_0007
+          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0007
         } else {
         # Do nothing
         }
@@ -77,7 +80,7 @@ proc read_register {} {
   global hyperbus_regs
   foreach item $hyperbus_regs {
         lassign $item name address
-        create_hw_axi_txn rd [get_hw_axis hw_axi_1] -type read -address $address -quiet
+        create_hw_axi_txn rd [get_hw_axis hw_axi_2] -type read -address $address -quiet
         run_hw_axi [get_hw_axi_txns rd] -quiet
         set read_element($name) [get_property DATA [get_hw_axi_txns rd]]
         delete_hw_axi_txn rd
