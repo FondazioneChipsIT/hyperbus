@@ -44,33 +44,28 @@ proc setup_hw {{port 3122}} {
 
 
 #********************************** READ&WRITE REGISTERS *********************************#
+
 proc hyper_init {} {
 
   global hyperbus_regs
-  foreach item $hyperbus_regs {
-        lassign $item name address
-        if {$name == "reg_chip0_base_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0000
-        } elseif {$name == "reg_chip0_end_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0800_0000
-        } elseif {$name == "reg_chip1_base_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0800_0000
-        } elseif {$name == "reg_chip1_end_addr"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 1000_0000
-        }  elseif {$name == "reg_phys_in_use"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0001
-        }  elseif {$name == "reg_which_phy"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0001
-        } elseif {$name == "reg_t_latency_access"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0007
-        } elseif {$name == "reg_t_read_write_recovery"} {
-          create_hw_axi_txn wr [get_hw_axis hw_axi_2] -type write -address $address -data 0000_0007
-        } else {
-        # Do nothing
-        }
-        run_hw_axi wr
-        delete_hw_axi_txn wr
+  array set ADDR {}
+  foreach reg $hyperbus_regs {
+    lassign $reg name address
+    set ADDR($name) 0x[string map {_ ""} $address]
   }
+
+  create_hw_axi_txn wr0 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_chip0_base_addr) -data 0000_0000
+  create_hw_axi_txn wr1 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_chip0_end_addr) -data 0800_0000
+  create_hw_axi_txn wr2 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_chip1_base_addr) -data 0800_0000
+  create_hw_axi_txn wr3 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_chip1_end_addr) -data 1000_0000
+  create_hw_axi_txn wr4 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_phys_in_use) -data 0000_0001
+  create_hw_axi_txn wr5 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_which_phy) -data 0000_0001
+  create_hw_axi_txn wr6 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_t_latency_access) -data 0000_0007
+  create_hw_axi_txn wr7 [get_hw_axis hw_axi_2] -type write -address $ADDR(reg_t_read_write_recovery) -data 0000_0007
+
+  run_hw_axi [get_hw_axi_txns wr*]
+  delete_hw_axi_txn [get_hw_axi_txns wr*]
+  
 }
 
 
@@ -79,11 +74,11 @@ proc read_register {} {
   array set read_element {}
   global hyperbus_regs
   foreach item $hyperbus_regs {
-        lassign $item name address
-        create_hw_axi_txn rd [get_hw_axis hw_axi_2] -type read -address $address -quiet
-        run_hw_axi [get_hw_axi_txns rd] -quiet
-        set read_element($name) [get_property DATA [get_hw_axi_txns rd]]
-        delete_hw_axi_txn rd
+    lassign $item name address
+    create_hw_axi_txn rd [get_hw_axis hw_axi_2] -type read -address $address -quiet
+    run_hw_axi [get_hw_axi_txns rd] -quiet
+    set read_element($name) [get_property DATA [get_hw_axi_txns rd]]
+    delete_hw_axi_txn rd
   }
 
   puts " "
@@ -112,7 +107,7 @@ proc read_register {} {
 
 
 
-proc hyperram_burst_test {} {
+proc hyperram_test {} {
 
     set axi_master [get_hw_axis hw_axi_1]
     set start_addr 00000000
@@ -122,7 +117,7 @@ proc hyperram_burst_test {} {
     #********************* WRITE DATA **********************#
     set write_data ""
     for {set i 0} {$i < $burst_len} {incr i} {
-        set value [format "%016llX" [expr {$i ^ 0xAAAA5555AAAA5555}]]
+        set value [format "%016llX" [expr {$i ^ 0xAAAABBBBAAAABBBB}]]
         append write_data $value
     }
 
@@ -139,14 +134,17 @@ proc hyperram_burst_test {} {
 
 
     #********************* COMPARE **********************#
-    #set errors 0
-    #for {set i 0} {$i < $burst_len} {incr i} {
-    #    set expected [format "%08X" [expr {$i ^ AAAA_5555_AAAA_5555}]]
-    #    set received [string range $read_data [expr {$i*8}] [expr {$i*8+7}] ]
-    #    if {$expected != $received} {
-    #        puts "ERROR"
-     #       incr errors
-     #   }
-    #}
+    set errors 0
+    for {set i 0} {$i < $burst_len} {incr i} {
+      set expected [format "%016llx" [expr {$i ^ 0xAAAABBBBAAAABBBB}]]
+      set received [string range $read_data [expr {$i*16}] [expr {$i*16+15}] ]
+      if {$expected != $received} {
+        puts "ERROR! EXPECTED 0x$expected != RECEIVED 0x$received"
+        incr errors
+      } else {
+        puts "OKKK! EXPECTED 0x$expected = RECEIVED 0x$received"
+      }
+    }
+    puts "ERRORS: $errors / $burst_len"
 }
 
