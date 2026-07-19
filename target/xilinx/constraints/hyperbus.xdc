@@ -9,7 +9,7 @@ set_property CLOCK_BUFFER_TYPE NONE [get_nets -of [get_ports pad_hyper_ckn]]
 set_property CLOCK_BUFFER_TYPE NONE [get_nets -hier -filter {NAME =~ *i_delay_rx_rwds_90/out_o}]
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets -hier -filter {NAME =~ *i_delay_rx_rwds_90/out_o}]
 
-set period_hyperbus 100
+set period_hyperbus 50
 set clk_rx_shift [expr $period_hyperbus/10]
 set rwds_input_delay [expr $period_hyperbus/4]
 
@@ -66,7 +66,7 @@ create_generated_clock [get_nets -hier -filter {NAME =~ *i_hyperbus_wrap/i_hyper
                         
                         
 set_clock_groups -name CLK_GROUP_1 -asynchronous \
-    -group {clk_20_clk_wiz_0} \ 
+    -group {hype_clk_clk_wiz_0} \ 
     -group {CLK_HYP CLK_PHY} \
     -group {CLK_PHY0_CK CLK_PHY1_CK CLK_PHY0_CK_N CLK_PHY1_CK_N} \
     -group {CLK_RWDS_0 CLK_RWDS_SAMPLE_0 RWDS0_CLK} \

@@ -110,3 +110,43 @@ proc read_register {} {
   array unset read_element
 }
 
+
+
+proc hyperram_burst_test {} {
+
+    set axi_master [get_hw_axis hw_axi_1]
+    set start_addr 00000000
+
+    set burst_len 256
+
+    #********************* WRITE DATA **********************#
+    set write_data ""
+    for {set i 0} {$i < $burst_len} {incr i} {
+        set value [format "%016llX" [expr {$i ^ 0xAAAA5555AAAA5555}]]
+        append write_data $value
+    }
+
+    create_hw_axi_txn wr_burst [get_hw_axis hw_axi_1] -type write -address $start_addr -len $burst_len -data $write_data
+    run_hw_axi wr_burst
+    delete_hw_axi_txn wr_burst
+
+    #********************* READ DATA **********************#
+    create_hw_axi_txn rd_burst [get_hw_axis hw_axi_1] -type read -address $start_addr -len $burst_len
+    run_hw_axi rd_burst
+
+    set read_data [get_property DATA [get_hw_axi_txns rd_burst]]
+    delete_hw_axi_txn rd_burst
+
+
+    #********************* COMPARE **********************#
+    #set errors 0
+    #for {set i 0} {$i < $burst_len} {incr i} {
+    #    set expected [format "%08X" [expr {$i ^ AAAA_5555_AAAA_5555}]]
+    #    set received [string range $read_data [expr {$i*8}] [expr {$i*8+7}] ]
+    #    if {$expected != $received} {
+    #        puts "ERROR"
+     #       incr errors
+     #   }
+    #}
+}
+

@@ -40,15 +40,15 @@ module hyperbus_top_xilinx
   clk_wiz_0 i_xlnx_clk_wiz (
     .clk_in1_n ( sys_clk_n  ),
     .clk_in1_p ( sys_clk_p  ),
-    .reset   ( '0       ),
-    .clk_20  ( clk_20   ),
-    .clk_100 ( clk_100  ),
-    .clk_200 ( clk_200  )
+    .reset    ( '0       ),
+    .hype_clk ( hyp_clk   ),
+    .clk_100  ( clk_100  ),
+    .clk_200  ( clk_200  )
   );
   
   assign sys_rst = cpu_reset | vio_reset;
   assign soc_clk = clk_100;
-  assign hyp_clk = clk_20;
+  // assign hyp_clk = clk_20;
  
 
   rstgen i_rstgen_main (
@@ -195,112 +195,13 @@ The Jtag-to-AXI IP supports queued transaction to increase bw and reduce latency
     .m_axi_rvalid   (axi_reg_rsp.r_valid),
     .m_axi_rready   (axi_reg_req.r_ready)
   );
-  
+
   
   (* mark_debug = "true" *) axi_req_t   axi_mem_req;
   (* mark_debug = "true" *) axi_rsp_t   axi_mem_rsp;
   (* mark_debug = "true" *) axi_reg_req_t   axi_reg_req;
   (* mark_debug = "true" *) axi_reg_rsp_t   axi_reg_rsp;
-  
-  
-  /*
-  // Connectivity of Xbar
-  (* mark_debug = "true" *) axi_req_t [1:0]  axi_out_req;
-  (* mark_debug = "true" *) axi_rsp_t [1:0]  axi_out_rsp;
 
-  // Configure AXI Xbar
-  localparam axi_pkg::xbar_cfg_t AxiXbarCfg = '{
-    NoSlvPorts:         1,
-    NoMstPorts:         2,
-    MaxMstTrans:        AxiMaxSlvTrans,
-    MaxSlvTrans:        AxiMaxSlvTrans,
-    FallThrough:        0,
-    LatencyMode:        axi_pkg::CUT_ALL_PORTS,
-    PipelineStages:     0,
-    AxiIdWidthSlvPorts: 1,
-    AxiIdUsedSlvPorts:  1,
-    UniqueIds:          0,
-    AxiAddrWidth:       AddrWidth,
-    AxiDataWidth:       AxiDataWidth,
-    NoAddrRules:        2
-  };
-
-  assign axi_xbar_rule[0] = '{idx: 32'd0, start_addr: 'h0, end_addr:'h1000_0000 }; // MEM
-  assign axi_xbar_rule[1] = '{idx: 32'd1, start_addr: 'h1000_0000, end_addr: 'h2000_0000 }; // REG
-
-  axi_xbar #(
-    .Cfg            ( AxiXbarCfg ),
-    .ATOPs          ( 1  ),
-    .Connectivity   ( '1 ),
-    .slv_aw_chan_t  ( axi_aw_chan_t ),
-    .mst_aw_chan_t  ( axi_aw_chan_t ),
-    .w_chan_t       ( axi_w_chan_t  ),
-    .slv_b_chan_t   ( axi_b_chan_t  ),
-    .mst_b_chan_t   ( axi_b_chan_t  ),
-    .slv_ar_chan_t  ( axi_ar_chan_t ),
-    .mst_ar_chan_t  ( axi_ar_chan_t ),
-    .slv_r_chan_t   ( axi_r_chan_t  ),
-    .mst_r_chan_t   ( axi_r_chan_t  ),
-    .slv_req_t      ( axi_req_t ),
-    .slv_resp_t     ( axi_rsp_t ),
-    .mst_req_t      ( axi_req_t ),
-    .mst_resp_t     ( axi_rsp_t ),
-    .rule_t         ( axi_pkg::xbar_rule_32_t )
-  ) i_axi_xbar (
-    .clk_i(hyp_clk),
-    .rst_ni(rst_n),
-    .test_i                 ( 1'b0 ),
-    .slv_ports_req_i        ( jtag_axi_req ),
-    .slv_ports_resp_o       ( jtag_axi_rsp ),
-    .mst_ports_req_o        ( axi_out_req ),
-    .mst_ports_resp_i       ( axi_out_rsp ),
-    .addr_map_i             ( axi_xbar_rule ),
-    .en_default_mst_port_i  ( '0 ),
-    .default_mst_port_i     ( '0 )
-  );
-
-*/
-  ///////////////////
-  // HYPE CLK      //
-  ///////////////////
-
-  // We want to be able to test the hyperbus with several clocks, in order to catch the functional limit of the IP on FPGA
-
-  /*localparam int unsigned HyperDivWidth = 20;
-  localparam int unsigned DefaultHyperClkDivValue = 1;  
-
-  logic hyper_clk_decoupled_valid, hyper_clk_decoupled_ready;
-
-  lossy_valid_to_stream #(
-    .T(logic [HyperDivWidth-1:0])
-  ) i_hyperbus_decouple (
-    .clk_i   ( clk_200 ),
-    .rst_ni  ( rst_n ),
-    .valid_i ( hyperbus_regs_reg2hw.clk_div_value.qe ),
-    .data_i  ( hyperbus_regs_reg2hw.clk_div_value.q  ),
-    .valid_o ( hyper_clk_decoupled_valid ),
-    .ready_i ( hyper_clk_decoupled_ready ),
-    .data_o  ( ),
-    .busy_o  ( )
-  );
-
-  clk_int_div #(
-    .DIV_VALUE_WIDTH ( HyperDivWidth ),
-    .DEFAULT_DIV_VALUE ( DefaultHyperClkDivValue ),
-    .ENABLE_CLOCK_IN_RESET ( 1 )
-  ) i_hyper_clk_div (
-    .clk_i                 ( periph_clk ),
-    .rst_ni                ( periph_rst_n ),
-    .en_i                  ( hyperbus_regs_reg2hw.clk_div_en.q ),
-    .test_mode_en_i        ( test_mode_i ),
-    .div_i                 ( hyperbus_regs_reg2hw.clk_div_value.q ),
-    .div_valid_i           ( hyper_clk_decoupled_valid ),
-    .div_ready_o           ( hyper_clk_decoupled_ready ),
-    .clk_o                 ( hyp_clk ),
-    .cycl_count_o          (  )
-  );
-
-*/
 
 hyperbus_wrap      #(
   .NumChips         ( NumChips                            ),

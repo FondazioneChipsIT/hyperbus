@@ -16,6 +16,9 @@ create_project ${_xil_proj_name_} ${origin_dir}/project -force -part xcvu9p-flga
 # set number of threads to 8 (maximum, unfortunately)
 set_param general.maxThreads 8
 
+#set HyperbusClkFreq 20
+#set HyperbusClkPeriod [expr {1000.0 / $HyperbusClkFreq}]
+
 # Add the Hyperbus constraints
 import_files -fileset constrs_1 -norecurse $origin_dir/constraints/hyperbus.xdc
 # Add the board constraints
@@ -58,10 +61,6 @@ report_clock_interaction                                                -file re
 
 
 #********************* RUN IMPLEMENTATION ***********************#
-
-set_property STEPS.PLACE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
-set_property STEPS.ROUTE_DESIGN.ARGS.DIRECTIVE Explore [get_runs impl_1]
-
 
 launch_runs impl_1 -jobs 12
 wait_on_run impl_1
