@@ -53,16 +53,16 @@ create_generated_clock -name CLK_PHY1_CK_N \
 create_generated_clock [get_pins -hier -filter {NAME =~ *i_hyperbus/i_phy/phy_wrap.phy_unroll[0].i_phy/i_trx/i_delay_rx_rwds_90/in_i}] \
                        -name CLK_RWDS_0 -edges {1 2 3} -edge_shift "$clk_rx_shift $clk_rx_shift $clk_rx_shift" \
                        -source [get_ports pad_hyper_rwds[0]]
-create_generated_clock [get_nets -hier -filter {NAME =~ *i_hyperbus_wrap/i_hyperbus/phy_wrap.phy_unroll[0].i_phy/src_clk_i}] \
+create_generated_clock [get_nets -hier -filter {NAME =~ *i_hyperbus_wrap/i_phy/phy_wrap.phy_unroll[0].i_phy/src_clk_i}] \
                         -name CLK_RWDS_SAMPLE_0 -invert  -divide_by 1  \ 
                         -source [get_pins -hier -filter {NAME =~ *i_hyperbus/i_phy/phy_wrap.phy_unroll[0].i_phy/i_trx/i_delay_rx_rwds_90/in_i}] 
                         
 create_generated_clock [get_pins -hier -filter {NAME =~ *i_hyperbus/i_phy/phy_wrap.phy_unroll[1].i_phy/i_trx/i_delay_rx_rwds_90/in_i}] \
                        -name CLK_RWDS_1 -edges {1 2 3} -edge_shift "$clk_rx_shift $clk_rx_shift $clk_rx_shift" \
                        -source [get_ports pad_hyper_rwds[1]]
-create_generated_clock [get_nets -hier -filter {NAME =~ *i_hyperbus_wrap/i_hyperbus/phy_wrap.phy_unroll[1].i_phy/src_clk_i}] \
+create_generated_clock [get_nets -hier -filter {NAME =~ *i_hyperbus_wrap/i_phy/phy_wrap.phy_unroll[1].i_phy/src_clk_i}] \
                         -name CLK_RWDS_SAMPLE_1 -invert  -divide_by 1  \ 
-                        -source [get_pins -hier -filter {NAME =~ *i_hyperbus_wrap/i_hyperbus/i_phy/phy_wrap.phy_unroll[1].i_phy/i_trx/i_delay_rx_rwds_90/in_i}]                           
+                        -source [get_pins -hier -filter {NAME =~ *i_hyperbus_wrap/i_hyperbus/i_phy/phy_wrap.phy_unroll[1].i_phy/i_trx/i_delay_rx_rwds_90/in_i}]
                         
                         
 set_clock_groups -name CLK_GROUP_1 -asynchronous \

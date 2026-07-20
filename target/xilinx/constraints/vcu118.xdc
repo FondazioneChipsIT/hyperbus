@@ -5,25 +5,7 @@
 # Cyril Koenig <cykoenig@iis.ee.ethz.ch>
 
 set SOC_TCK 20
-
-
-####################
-# Clock generators #
-####################
-
-# Do not optimize anything in 
-# set_property DONT_TOUCH TRUE [get_cells gen_domain_clock_mux[*].i_clk_mux]
-
-# TODO Check this
-# set_false_path -from [get_pins gen_domain_clock_mux[*].i_clk_mux/gen_input_stages[*].clock_has_been_disabled_q_reg[*]/C] -to [get_pins gen_domain_clock_mux[*].i_clk_mux/gen_input_stages[*].clock_has_been_disabled_q_reg[*]/D]
-# set_false_path -from [get_pins gen_domain_clock_mux[*].i_clk_mux/gen_input_stages[*].clock_has_been_disabled_q_reg[*]/C] -to [get_pins gen_domain_clock_mux[*].i_clk_mux/gen_input_stages[*].glitch_filter_q_reg[*][*]/D]
-
-# Enable all clocks (clk_en register)
-# set_property DONT_TOUCH TRUE [get_cells i_carfield_reg_top/u_*_clk_sel]
-# set_property DONT_TOUCH TRUE [get_cells i_carfield_reg_top/u_*_clk_en]
-set_case_analysis 1 [get_pins {i_carfield_reg_top/u_*_clk_en/q_reg[0]/Q}]
-
-
+set HYPERBUS_TCK 50
 
 ##########
 # BUFG   #
@@ -33,7 +15,6 @@ set_case_analysis 1 [get_pins {i_carfield_reg_top/u_*_clk_en/q_reg[0]/Q}]
 set all_in_mux [get_nets -of [ get_pins -filter { DIRECTION == IN } -of [get_cells -hier -filter { ORIG_REF_NAME == tc_clk_mux2 || REF_NAME == tc_clk_mux2 }]]]
 set_property CLOCK_DEDICATED_ROUTE FALSE $all_in_mux
 set_property CLOCK_BUFFER_TYPE NONE $all_in_mux
-
 
 
 ####################
@@ -53,31 +34,19 @@ set_max_delay -through [get_nets *isolat*] $SOC_TCK
 set_max_delay -datapath -from [get_pins i_host_rstgen/i_rstgen_bypass/synch_regs_q_reg[3]/C] -through [get_pins -of_object [get_cells -hier -filter {REF_NAME==clk_mux_glitch_free || ORIG_REF_NAME==clk_mux_glitch_free}] -filter { NAME =~*async* }] $SOC_TCK
 
 
-
-
 #################
-#     CDCs      # (if any)
+#     CDCs      # 
 #################
 
-# Note :
-# For the 2 phases CDC we use max_delay and hold path as we grab everything grossly
-# On the AXI CDC as we precisely select the Clk-to-Q path we use a unique set_max_delay -datapath
-# All the delays are assumed to be SOC_TCK (host domain)
+set_max_delay -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap*"}] $HYPERBUS_TCK
+set_false_path -hold -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap*"}]
 
-# Hold and max delay on 2 phases and 2 phases clearable
-set_max_delay -through [get_nets -filter {NAME=~"*async*"} -of_objects [get_cells -hier -filter {REF_NAME =~ cdc_2phase_src* || ORIG_REF_NAME =~ cdc_2phase_src*}]] $SOC_TCK
-set_false_path -hold -through [get_nets -filter {NAME=~"*async*"} -of_objects [get_cells -hier -filter {REF_NAME =~ cdc_2phase_src* || ORIG_REF_NAME =~ cdc_2phase_src*}]]
-
-# Hold and max delay on 4 phases
-set_max_delay -through [get_nets -filter {NAME=~"*async*"} -of_objects [get_cells -hier -filter {REF_NAME == cdc_4phase_src || ORIG_REF_NAME == cdc_4phase_src}]] $SOC_TCK
-set_false_path -hold -through [get_nets -filter {NAME=~"*async*"} -of_objects [get_cells -hier -filter {REF_NAME == cdc_4phase_src || ORIG_REF_NAME == cdc_4phase_src}]]
 
 
 
 #################
 #     PINOUT    #
 #################
-
 
 # RESET
 set_property PACKAGE_PIN L19 [get_ports cpu_reset]

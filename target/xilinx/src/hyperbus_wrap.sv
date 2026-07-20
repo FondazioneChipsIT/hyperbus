@@ -24,6 +24,11 @@ module hyperbus_wrap
   parameter type         axi_ar_chan_t   = logic,
   parameter type         axi_r_chan_t    = logic,
   parameter type         axi_aw_chan_t   = logic,
+  parameter type         axi_reg_w_chan_t    = logic,
+  parameter type         axi_reg_b_chan_t    = logic,
+  parameter type         axi_reg_ar_chan_t   = logic,
+  parameter type         axi_reg_r_chan_t    = logic,
+  parameter type         axi_reg_aw_chan_t   = logic,
   parameter int unsigned RegAddrWidth    = -1,
   parameter int unsigned RegDataWidth    = -1,
   parameter int unsigned  MinFreqMHz     = 100,
@@ -81,6 +86,30 @@ typedef struct packed {
   logic [AxiAddrWidth-1:0] end_addr;
 } addr_rule_t;
 
+axi_reg_req_t axi_reg_int_req;
+axi_reg_rsp_t axi_reg_int_rsp;
+
+axi_cdc #(
+  .aw_chan_t      ( axi_reg_aw_chan_t ),
+  .w_chan_t       ( axi_reg_w_chan_t  ),
+  .b_chan_t       ( axi_reg_b_chan_t  ),
+  .ar_chan_t      ( axi_reg_ar_chan_t ),
+  .r_chan_t       ( axi_reg_r_chan_t  ),
+  .axi_req_t      ( axi_reg_req_t     ),
+  .axi_resp_t     ( axi_reg_rsp_t     ),
+  .LogDepth(2),
+  .SyncStages(2)
+) i_cdc_reg (
+  .src_clk_i(clk_i),
+  .src_rst_ni(rst_ni),
+  .src_req_i(axi_reg_req),
+  .src_resp_o(axi_reg_rsp),
+  .dst_clk_i(clk_phy),
+  .dst_rst_ni(rst_ni),
+  .dst_req_o(axi_reg_int_req),
+  .dst_resp_i(axi_reg_int_rsp)
+);
+
 
 axi_to_reg_v2 #(
   .AxiAddrWidth(AxiAddrWidth),
@@ -94,10 +123,10 @@ axi_to_reg_v2 #(
   .reg_rsp_t(reg_rsp_t),
   .id_t() //?
 )(
-  .clk_i(clk_i),
+  .clk_i(clk_phy),
   .rst_ni,
-  .axi_req_i(axi_reg_req),
-  .axi_rsp_o(axi_reg_rsp),
+  .axi_req_i(axi_reg_int_req),
+  .axi_rsp_o(axi_reg_int_rsp),
   .reg_req_o(reg_req),
   .reg_rsp_i(reg_rsp),
   .reg_id_o(), // Is this important? Can I leave it unassigned?
@@ -118,7 +147,7 @@ axi_cdc #(
   .axi_resp_t     ( axi_rsp_t     ),
   .LogDepth(2),
   .SyncStages(2)
-) (
+) i_cdc_mem (
   .src_clk_i(clk_i),
   .src_rst_ni(rst_ni),
   .src_req_i(hyper_req),
@@ -144,17 +173,17 @@ hyperbus_clk_gen i_hyper_clk_gen (
     .ph_phy_o  ( ph_phy )
 );
 
-(* mark_debug = "true" *) logic [NumPhys-1:0][NumChips-1:0] hyper_cs_no;
-(* mark_debug = "true" *) logic [NumPhys-1:0] hyper_ck_o;
-(* mark_debug = "true" *) logic [NumPhys-1:0] hyper_ck_no;
-(* mark_debug = "true" *) logic [NumPhys-1:0] hyper_rwds_o;
-(* mark_debug = "true" *) logic [NumPhys-1:0] hyper_rwds_i;
-(* mark_debug = "true" *) logic [NumPhys-1:0] hyper_rwds_oe_o;
-(* mark_debug = "true" *) logic [NumPhys-1:0][7:0] hyper_dq_i;
-(* mark_debug = "true" *) logic [NumPhys-1:0][7:0] hyper_dq_o;
-(* mark_debug = "true" *) logic [NumPhys-1:0][7:0] hyper_dq_oe_o;
-(* mark_debug = "true" *) logic [NumPhys-1:0] hyper_reset_no;
-(* mark_debug = "true" *) logic [NumPhys-1:0][7:0] hyper_pad_cfg_o;
+logic [NumPhys-1:0][NumChips-1:0] hyper_cs_no;
+logic [NumPhys-1:0] hyper_ck_o;
+logic [NumPhys-1:0] hyper_ck_no;
+logic [NumPhys-1:0] hyper_rwds_o;
+logic [NumPhys-1:0] hyper_rwds_i;
+logic [NumPhys-1:0] hyper_rwds_oe_o;
+logic [NumPhys-1:0][7:0] hyper_dq_i;
+logic [NumPhys-1:0][7:0] hyper_dq_o;
+logic [NumPhys-1:0][7:0] hyper_dq_oe_o;
+logic [NumPhys-1:0] hyper_reset_no;
+logic [NumPhys-1:0][7:0] hyper_pad_cfg_o;
 
 hyperbus           #(
   .NumChips         ( NumChips         ),
