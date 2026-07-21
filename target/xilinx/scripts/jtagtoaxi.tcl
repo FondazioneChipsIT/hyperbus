@@ -100,16 +100,15 @@ proc read_register {} {
   puts "CHIP0_START_ADDR 0x$read_element(reg_chip0_base_addr)"
   puts "CHIP0_END_ADDR 0x$read_element(reg_chip0_end_addr)"
   puts "CHIP1_START_ADDR 0x$read_element(reg_chip1_base_addr)"
-  puts "CHIP1_END_ADDR 0x$read_element(reg_chip0_end_addr)"
+  puts "CHIP1_END_ADDR 0x$read_element(reg_chip1_end_addr)"
 
   array unset read_element
 }
 
 
 
-proc hyperram_test {} {
+proc hyperram_wwrr_test {} {
 
-    set axi_master [get_hw_axis hw_axi_1]
     set start_addr 00000000
 
     set burst_len 256
@@ -146,5 +145,43 @@ proc hyperram_test {} {
       }
     }
     puts "ERRORS: $errors / $burst_len"
+}
+
+
+proc hyperram_wrwr_test {} {
+
+    set start_address 00000000
+
+    set num_writes 256
+    set errors 0
+
+    for {set i 0} {$i < $num_writes} {incr i} {
+
+      #********************* WRITE DATA **********************#
+      set write_data [format "%016llx" [expr {$i ^ 0xAAAABBBBAAAABBBB}]]
+      set address [format "0x%08x" [expr {8*$i+$start_address}]]
+      puts "$address"
+      create_hw_axi_txn single_wr [get_hw_axis hw_axi_1] -type write -address $address -data $write_data
+      run_hw_axi single_wr
+      delete_hw_axi_txn single_wr
+
+      #********************* READ DATA **********************#
+      create_hw_axi_txn single_rd [get_hw_axis hw_axi_1] -type read -address $address
+      run_hw_axi single_rd
+      set read_data [get_property DATA [get_hw_axi_txns single_rd]]
+      delete_hw_axi_txn single_rd
+
+      #********************* COMPARE **********************#
+      if {$read_data != $write_data} {
+        puts "ERROR! ADDRESS 0x$address EXPECTED 0x$write_data RECEIVED 0x$read_data"
+        incr errors
+      } else {
+        puts "OKKK! ADDRESS 0x$address EXPECTED 0x$write_data RECEIVED 0x$read_data"
+      }
+
+    }
+
+    puts "ERRORS: $errors / $num_writes"
+    
 }
 
