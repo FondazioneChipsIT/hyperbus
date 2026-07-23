@@ -1,11 +1,9 @@
-# Copyright 2022 ETH Zurich and University of Bologna.
+# Copyright 2026 ETH Zurich, University of Bologna and Fondazione Chips-IT
 # Solderpad Hardware License, Version 0.51, see LICENSE for details.
 # SPDX-License-Identifier: SHL-0.51
-#
-# Cyril Koenig <cykoenig@iis.ee.ethz.ch>
 
-set SOC_TCK 20
-set HYPERBUS_TCK 50
+set SOC_TCK 10
+set HYPERBUS_TCK 10
 
 ##########
 # BUFG   #
@@ -17,30 +15,37 @@ set_property CLOCK_DEDICATED_ROUTE FALSE $all_in_mux
 set_property CLOCK_BUFFER_TYPE NONE $all_in_mux
 
 
+#############
+#    VIO    #
+#############
+
+set_false_path -through [get_pins -of_object [get_cells -hier -filter {REF_NAME =~ xlnx_vio || ORIG_REF_NAME =~ xlnx_vio}] -filter {NAME =~ *probe*}]
+
+
+
 ####################
-# Reset Generators #
+#       Reset      #
 ####################
+
+set SOC_RST_SRC [get_pins -filter {DIRECTION == OUT} -leaf -of_objects [get_nets rst_n]]
+set_max_delay -through $SOC_RST_SRC $SOC_TCK
+set_false_path -hold -through $SOC_RST_SRC
+
 
 # No max delay on sw reset since clock can be gated anyways
 set_property KEEP_HIERARCHY SOFT [get_cells -hier -filter {ORIG_REF_NAME=="rstgen" || REF_NAME=="rstgen"}]
-set_false_path -through [get_pins -of_objects [get_cells -hier i_carfield_rstgen] -filter {DIRECTION==OUT}]
 set_false_path -hold -through [get_pins -filter {DIRECTION==OUT} -of_objects [get_cells -hier -filter {REF_NAME == rstgen || ORIG_REF_NAME == rstgen}]]
-set_false_path -setup -hold -from [get_pins -of_objects [get_cells -hier -filter {NAME=~*i_carfield_reg_top/u_*_rst/*}] -filter {IS_CLOCK}] -to [get_clocks *domain_clk]
-
-# Go large on the isolation
-set_max_delay -through [get_nets *isolat*] $SOC_TCK
-
-# Host pwr_on_reset is resynch by the domains
-set_max_delay -datapath -from [get_pins i_host_rstgen/i_rstgen_bypass/synch_regs_q_reg[3]/C] -through [get_pins -of_object [get_cells -hier -filter {REF_NAME==clk_mux_glitch_free || ORIG_REF_NAME==clk_mux_glitch_free}] -filter { NAME =~*async* }] $SOC_TCK
 
 
 #################
 #     CDCs      # 
 #################
 
-set_max_delay -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap*"}] $HYPERBUS_TCK
-set_false_path -hold -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap*"}]
+set_max_delay -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap/i_cdc_mem/*"}] $HYPERBUS_TCK
+set_max_delay -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap/i_cdc_reg*"}] $HYPERBUS_TCK
+set_max_delay -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_rx_rwds_cdc_fifo*"}] [expr {$HYPERBUS_TCK * 2}]
 
+set_false_path -hold -through [get_nets -hierarchical -filter {NAME=~"*async*" && NAME=~"*i_hyperbus_wrap*"}]
 
 
 
@@ -89,13 +94,3 @@ set_property -dict "PACKAGE_PIN BD13 IOSTANDARD LVCMOS18"  [get_ports pad_hyper_
 set_property -dict "PACKAGE_PIN BE13 IOSTANDARD LVCMOS18"  [get_ports pad_hyper_dq[1][5]]
 set_property -dict "PACKAGE_PIN BB13 IOSTANDARD LVCMOS18"  [get_ports pad_hyper_dq[1][6]]
 set_property -dict "PACKAGE_PIN BB12 IOSTANDARD LVCMOS18"  [get_ports pad_hyper_dq[1][7]]
-
-
-
-
-set_false_path -through [get_pins -of_object [get_cells -hier -filter {REF_NAME =~ xlnx_vio || ORIG_REF_NAME =~ xlnx_vio}] -filter {NAME =~ *probe*}]
-
-
-set SOC_RST_SRC [get_pins -filter {DIRECTION == OUT} -leaf -of_objects [get_nets rst_n]]
-set_max_delay -through $SOC_RST_SRC $SOC_TCK
-set_false_path -hold -through $SOC_RST_SRC

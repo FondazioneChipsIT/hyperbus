@@ -193,8 +193,8 @@ module hyperbus_top_xilinx
   );
 
 
-  logic[31:0] tx_timer;
-  (* mark_debug = "true" *) logic[31:0] ila_tx_timer;
+  logic[31:0] tx_timer, rx_timer;
+  (* mark_debug = "true" *) logic[31:0] ila_tx_timer, ila_rx_timer;
 
 
   always_ff @(posedge hyp_clk or negedge rst_n) begin
@@ -211,6 +211,25 @@ module hyperbus_top_xilinx
 
         if (axi_mem_req.w.last) begin
           ila_tx_timer <= tx_timer;
+        end
+      end
+  end
+
+
+  always_ff @(posedge hyp_clk or negedge rst_n) begin
+      if (~rst_n) begin
+          rx_timer  <= '0;
+          ila_rx_timer  <= '0;
+      end else begin
+        
+        if (axi_mem_req.ar_valid) begin
+          rx_timer  <= '0;
+        end else if (!axi_mem_rsp.r.last) begin
+          rx_timer  <= rx_timer + 1;
+        end
+
+        if (axi_mem_rsp.r.last) begin
+          ila_rx_timer <= rx_timer;
         end
       end
   end

@@ -16,13 +16,16 @@ create_project ${_xil_proj_name_} ${origin_dir}/project -force -part xcvu9p-flga
 # set number of threads to 8 (maximum, unfortunately)
 set_param general.maxThreads 8
 
-#set HyperbusClkFreq 20
-#set HyperbusClkPeriod [expr {1000.0 / $HyperbusClkFreq}]
-
 # Add the Hyperbus constraints
 import_files -fileset constrs_1 -norecurse $origin_dir/constraints/hyperbus.xdc
+
 # Add the board constraints
 import_files -fileset constrs_1 -norecurse $origin_dir/constraints/vcu118.xdc
+
+# Add the board constraints
+import_files -fileset constrs_1 -norecurse $origin_dir/constraints/floorplan.xdc
+set_property USED_IN {implementation} [get_files floorplan.xdc]
+
 
 # IPs selection
 source ../xilinx_ips/clk_wiz/clk_wiz_0.tcl
