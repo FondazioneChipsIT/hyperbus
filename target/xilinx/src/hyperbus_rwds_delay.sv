@@ -16,6 +16,8 @@ module hyperbus_rwds_delay
     output logic       out_o
 );
 
+    logic out_o_o;
+
     // "Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs" - page 194
     // Delay a signal coming in from IOs or delay an internal data signal
     // modes:
@@ -65,7 +67,6 @@ module hyperbus_rwds_delay
         Another option is to disable the specific DRC check:
         set_property IS_ENABLED 0 [get_drc_checks {REQP-1741}]
     */
-    logic       out_o_o;
     (*dont_touch = "yes"*) 
     LUT1#(
     .INIT(2'b10)
