@@ -6,7 +6,7 @@ From the hyperbus directory launch:
 ```bash
 make scripts-bender-fpga
 ```
-Then in this directory launch:
+Then, move to the `target/xilinx` directory and launch:
 ```bash
 vivado -mode tcl -source scripts/run.tcl
 ```
