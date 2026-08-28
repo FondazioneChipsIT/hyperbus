@@ -16,6 +16,7 @@ module hyperbus_rwds_delay
     output logic       out_o
 );
 
+    logic       out_o_o;
     // "Xilinx 7 Series FPGA and Zynq-7000 All Programmable SoC Libraries Guide for HDL Designs" - page 194
     // Delay a signal coming in from IOs or delay an internal data signal
     // modes:
@@ -24,7 +25,7 @@ module hyperbus_rwds_delay
     // - VAR_LOAD: dynamically load tap values
     // - VAR_LOAD_PIPE: pipelines dynamic load
 
-
+`ifdef ULTRASCALE
     // Ultrascale FGPAs require IDELAY3
     IDELAYE3 #(
         .CASCADE("NONE"),
@@ -55,6 +56,31 @@ module hyperbus_rwds_delay
         .CASC_IN(1'b0),
         .CASC_RETURN(1'b0)
     );
+`else 
+    IDELAYE2 #(
+        .CINVCTRL_SEL          ( "FALSE"    ), // "TRUE" actives CINVCTRL functionality
+        .DELAY_SRC             ( "DATAIN"   ), // source to delay chain ("CLKIN" or "IDATAIN")
+        .HIGH_PERFORMANCE_MODE ( "TRUE"     ),  // "TRUE" for less jitter; "FALSE" for low power
+        .IDELAY_TYPE           ( "VAR_LOAD" ), // mode of operation, see above
+        .IDELAY_VALUE          ( 0          ), // delay value 0-31 (used in "VARIABLE" and "FIXED" mode)
+        .PIPE_SEL              ( "FALSE"    ), // "TRUE" activates pipelined operation 
+        .REFCLK_FREQUENCY      ( 200.0      ), // used for STA and simulation (190.0 - 310.0 MHz)
+        .SIGNAL_PATTERN        ( "CLOCK"    ) // "DATA" or "CLOCK" depending on function, used in STA
+    ) i_delay (
+        .REGRST      ( rst_i       ), // input: reset delay tap value to IDELAY_VALUE or CNTVALUEIN
+        .C           ( clk_i       ), // input: control input clock
+        .DATAIN      ( in_i        ), // input: signal from FPGA logic to be delayed
+        .IDATAIN     ( 1'b0        ), // input: signal from IO to be delayed
+        .DATAOUT     ( out_o_o       ), // output: delayed from DATAIN or IDATAIN (drives ISERDESE2 or logic, not IO!)
+        .CE          ( 1'b0        ), // input: increment/decrement enable
+        .CINVCTRL    ( 1'b0        ), // input: switch clock polarity during operation (glitches!)
+        .CNTVALUEIN  ( delay_i     ), // 5 bit input: delay tap
+        .CNTVALUEOUT (             ), // 5 bit output: delay tap
+        .LD          ( 1'b1        ), // input: load IDELAY_VALUE param or CNTVALUEIN (depends on IDELAY_TYPE)
+        .INC         ( 1'b0        ), // input: increment/decrement delay tap
+        .LDPIPEEN    ( 1'b0        ) // input: enable the pipeline register to load data from LD
+    );
+`endif 
 
     /*  WORKAROUND for Xilinx FPGAs:
         Sometimes, DRC check before place design gives the following error:
@@ -65,7 +91,7 @@ module hyperbus_rwds_delay
         Another option is to disable the specific DRC check:
         set_property IS_ENABLED 0 [get_drc_checks {REQP-1741}]
     */
-    logic       out_o_o;
+
     (*dont_touch = "yes"*) 
     LUT1#(
     .INIT(2'b10)

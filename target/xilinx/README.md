@@ -4,11 +4,13 @@
 
 From the hyperbus directory launch:
 ```bash
-make scripts-bender-fpga
+make scripts-bender-fpga FPGA=vcu118/genesys2
 ```
+Currently, both vcu118 and genesys2 board are supported.
+
 Then in this directory launch:
 ```bash
-vivado -mode tcl -source scripts/run.tcl
+vivado -mode tcl -source scripts/run.tcl -tclargs vcu118/genesys2
 ```
 ## Interact with the design
 

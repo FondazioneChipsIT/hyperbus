@@ -42,7 +42,11 @@ module tc_clk_gating #(
       .CE_TYPE        ( "SYNC"       ),
       .IS_CE_INVERTED ( 1'b0         ),
       .IS_I_INVERTED  ( 1'b0         ),
+    `ifdef ULTRASCALE
       .SIM_DEVICE     ( "ULTRASCALE" )
+    `else 
+      .SIM_DEVICE     ( "7SERIES" )
+    `endif       
     ) i_clk_gate (
       .I  ( clk_i ),
       .CE ( en_i  ),

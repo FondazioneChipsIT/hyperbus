@@ -35,10 +35,10 @@ module hyperbus_top_xilinx
     .probe_out0(vio_reset)
   );
 
+
   clk_wiz_0 i_xlnx_clk_wiz (
     .clk_in1_n ( sys_clk_n  ),
     .clk_in1_p ( sys_clk_p  ),
-    .reset     ( '0         ),
     .hype_clk  ( hyp_clk    ),
     .clk_100   ( clk_100    ),
     .clk_200   ( clk_200    )

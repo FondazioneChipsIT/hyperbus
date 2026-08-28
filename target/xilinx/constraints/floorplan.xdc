@@ -1,3 +1,7 @@
+# Copyright 2026 ETH Zurich, University of Bologna and Fondazione Chips-IT
+# Solderpad Hardware License, Version 0.51, see LICENSE for details.
+# SPDX-License-Identifier: SHL-0.51
+
 #################
 #     PBLOCK    #
 #################
